@@ -1,0 +1,32 @@
+base.filters:
+  encode:
+    order: 8
+  #需要重试的请求类型，一般只设置 读接口
+  retry:
+#    enabled: false
+    order: 9
+    #不会重试的请求类型, 优先级中
+    notRetryMethods:
+      - POST
+      - PUT
+      - DELETE
+
+    #不会重试的请求地址url前缀, 不要以 / 或 * 结尾, 优先级最高
+    notRetryUrls:
+#      - /abc
+
+  #登录权限验证
+  authorization:
+#    enabled: false
+    order: 11
+    # 允许option请求通过的自定义header, 全小写
+    access-control-request-headers:
+      - accept
+      - content-type
+      - token
+
+#  event-stream:
+#    enabled: false
+
+#  not-print-error:
+#    enabled: false

@@ -1,0 +1,9 @@
+server:
+  port: 9999
+
+# 定位模板的目录和后缀
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html

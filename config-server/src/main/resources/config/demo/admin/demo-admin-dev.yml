@@ -1,0 +1,121 @@
+ribbon:
+   #（开发和测试环境）
+  #eureka客户端ribbon刷新时间, 默认30s
+  ServerListRefreshInterval: 5000
+eureka:
+  client:
+    #（开发和测试环境）
+    #eureka client刷新本地缓存时间, 默认30s
+    registryFetchIntervalSeconds: 5
+  instance:
+    #（开发和测试环境）
+    #服务刷新时间配置，每隔这个时间会主动心跳一次, 默认30s
+    lease-renewal-interval-in-seconds: 5
+    #（开发和测试环境）
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，
+    #这个配置一般为服务刷新时间配置的三倍, 默认90s
+    lease-expiration-duration-in-seconds: 15
+
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: root
+    password: He800@123
+    url: jdbc:log4jdbc:mysql://192.168.60.5:3306/demo_dev?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  redis:
+    database: 1
+    host: 192.168.60.5
+    password: He800@123
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m
+  http:
+      multipart:
+        maxFileSize: 50Mb
+        maxRequestSize: 50Mb
+
+  # freemarker config
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    settings:
+      template_update_delay: 0
+      default_encoding: UTF-8
+      classic_compatible: true
+      date_format: yyyy-MM-dd
+      time_format: HH:mm:ss
+      datetime_format: yyyy-MM-dd HH:mm:ss
+    order: 1
+
+
+base:
+  #用于直接通过验证的特殊code
+  common.debug-code: "oT0Czx2Gq@aM6QLgBM6I5g3RILopjURm%X!^&%zVLiA8fAAYatz7I727e0E8PN@C"
+  admin:
+    #超级管理员角色ID, 无需配置菜单权限，拥有所有权限
+    super-role-ids:
+      - "d1817b1b-7a12-480e-b2d7-f3856e099b2a"
+
+    #只要登录后就能直接访问的权限路径，不要以 ** 结束
+    login-permission-path:
+      start-with-path:
+        - "/admin/home"
+        - "/admin/information"
+        - "/admin/ueditor/controller"
+      equals-path:
+        - "/admin"
+        - "/admin/"
+        - "/admin/index"
+
+    #登录页
+    login-path: "/admin/login"
+
+    #不进入权限验证拦截器的地址，Spring 匹配规则
+    auth-exclude-path:
+      - "${base.admin.login-path}"
+      - "/admin/logout"
+      - "/admin/error/**"
+      - "/admin/css/**"
+      - "/admin/fonts/**"
+      - "/admin/js/**"
+      - "/admin/img/**"
+      - "/admin/pub/**"
+      - "/admin/**.html"
+      - "/admin/**.ico"
+      - "/admin/register/**"
+      - "/admin/userType/register"
+      - "/admin/region/tree"
+      - "/admin/product/info/page"
+      - "/admin/profession-member/tree"
+      - "/admin/profession-member/treeorg"
+      - "/admin/region/member/tree"
+      - "/admin/edge/sms/code"
+      - "/admin/edge/captcha"
+      - "/admin/edge/sms"
+      - "/admin/edge/captcha/key"
+      - "/admin/edge/captcha/key/js"
+      - "/admin/edge/sms/validate"
+      - "/admin/edge/captcha/validate"
+      - "/admin/register/org"
+      - "/admin/register/servicer"
+      - "/admin/attachment/upload/no/token"
+
+
+

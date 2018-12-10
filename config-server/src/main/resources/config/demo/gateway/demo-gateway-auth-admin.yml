@@ -1,0 +1,22 @@
+#登录权限验证
+base.filters.authorization:
+  authMap:
+    admin:
+      #静态资源文件后缀，跳过权限验证（跳过读取token）
+      staticResourceSuffix:
+        - ".html"
+        - ".js"
+        - ".css"
+
+      #静态资源地址前缀，跳过权限验证，不要以 * 结尾（跳过读取token）
+      staticResourceUriPrefix:
+        - /admin/css/
+        - /admin/js/
+        - /admin/pub/
+        - /admin/img/
+        - /admin/fonts/
+        - /admin/edge/
+
+      #不验证登录权限的url前缀, 不要以 * 结尾（读取token）
+      notCheckUrls:
+        - /admin

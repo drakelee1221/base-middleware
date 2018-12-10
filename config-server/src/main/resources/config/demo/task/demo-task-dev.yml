@@ -1,0 +1,23 @@
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: root
+    password: xxxx
+    url: jdbc:log4jdbc:mysql://192.168.60.5:3306/dev?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  redis:
+    database: 1
+    host: 192.168.60.5
+    password: xxxx
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m

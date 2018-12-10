@@ -1,0 +1,33 @@
+eureka:
+  server:
+    #（开发和测试环境）
+    #驱逐下线的服务，间隔,5秒，默认是60
+    #org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean.evictionIntervalTimerInMs
+    evictionIntervalTimerInMs: 5000
+    #（开发和测试环境）
+    #自我保护模式，当出现出现网络分区、eureka在短时间内丢失过多客户端时，会进入自我保护模式，
+    #时即一个服务长时间没有发送心跳，eureka也不会将其删除，默认为true
+    enable-self-preservation: false
+    #（开发和测试环境）
+    #eureka server刷新readCacheMap的时间，注意，client读取的是readCacheMap，
+    #这个时间决定了多久会把readWriteCacheMap的缓存更新到readCacheMap上, 默认30s
+    response-cache-update-interval-ms: 3000
+
+base:
+  #elastic-search 配置文件名，不要后缀.yml
+  es-file-name: 'base-es-test'
+#  config-search-path: config-server/src/main/resources/config
+#  config-search-native-path: ${base.config-path-prefix}${base.config-search-path}
+
+#config server 默认使用 git，除非profiles中使用native或者subversion
+spring:
+  cloud:
+    config:
+      server:
+        prefix: config
+        default-label: '@git.branches@'
+        git:
+          uri: git://192.168.60.5/base-components.git
+          search-paths: ${base.config-search-path}/**
+          username: ligeng
+          password: ligeng

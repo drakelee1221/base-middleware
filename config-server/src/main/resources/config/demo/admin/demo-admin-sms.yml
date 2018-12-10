@@ -1,0 +1,14 @@
+base.admin.sms:
+  - templateId: "SMS_129755324"
+    title: "开始服务"
+    params: "phone,productName"
+    content: "尊敬的 phone 用户，您购买的（productName）服务，于今日正式生效，请随时关注系统查看服务日志，也可关注公众号随时收到服务通知。"
+base.admin.sms.send.max: 1000
+
+base.admin.sms.param.mapping:
+   userInfo: smsParamUserInfoService
+
+# 短信模板类型
+base.admin.sms.template.type:
+  - 运营
+  - 其他

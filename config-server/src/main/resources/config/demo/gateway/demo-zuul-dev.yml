@@ -1,0 +1,88 @@
+spring:
+  redis:
+    database: 1
+    host: 192.168.60.5
+    password: He800@123
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m
+
+eureka:
+  client:
+    #（开发和测试环境）
+    #eureka client刷新本地缓存时间, 默认30s
+    registryFetchIntervalSeconds: 5
+  instance:
+    #（开发和测试环境）
+    #服务刷新时间配置，每隔这个时间会主动心跳一次, 默认30s
+    lease-renewal-interval-in-seconds: 5
+    #（开发和测试环境）
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，
+    #这个配置一般为服务刷新时间配置的三倍, 默认90s
+    lease-expiration-duration-in-seconds: 15
+
+#开启feign调用hystrix断路器
+feign.hystrix.enabled: true
+
+#ribbon配置，见 com.netflix.client.config.DefaultClientConfigImpl
+#远程调用时会更具请求的方法进行判断，见 AbstractLoadBalancerAwareClient#getRequestSpecificRetryHandler
+# zuul比较特殊，见 RibbonCommandFactoryConfiguration，
+# 总超时时间 = (ReadTimeout + ConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1)，见 AbstractRibbonCommand
+# Spring希望hystrixTimeout要大于ribbonTimeout，否则hystrix熔断了以后，ribbon的重试就都没有意义了。
+ribbon:
+  # 默认Apache HTTP Client (RibbonLoadBalancingHttpClient)，默认不重试；
+  # okhttp (OkHttpLoadBalancingClient), 支持重试，开启设置：ribbon.okhttp.enabled=true ；
+  # Netflix Ribbon HTTP restclient (RestClient)，支持重试，开启设置：ribbon.restclient.enabled=true ；
+  okhttp.enabled: true
+  #对当前实例的重试次数，默认0
+  MaxAutoRetries: 0
+  #对集群的下个实例的重试次数，默认1
+  MaxAutoRetriesNextServer: 1
+  #请求处理的超时时间 (毫秒)，默认1000
+  ReadTimeout: 27000
+  #连接超时时间(毫秒)，默认1000
+  ConnectTimeout: 2000
+  #（开发和测试环境）
+  #eureka客户端ribbon刷新时间, 默认30s
+  ServerListRefreshInterval: 5000
+
+hystrix:
+  command:
+    default:
+      execution:
+        #断路器处理的超时时间 (毫秒), 大于等于 ribbon 总超时时间
+        isolation.thread.timeoutInMilliseconds: 60000
+        timeout.enabled: false
+  #HystrixThreadPoolProperties
+  threadpool:
+    default:
+      #HystrixConcurrencyStrategy
+      allowMaximumSizeToDivergeFromCoreSize: true
+      #如果 zuul.threadPool.useSeparateThreadPools = true,
+      #则默认 = 10
+      #如果 zuul.threadPool.useSeparateThreadPools = false,
+      #则根据网关代理的模块数调整核心线程数 = module总数 * 10
+      coreSize: 150
+      # 最大线程数 一般为 coreSize 的 200% 或 150%
+      maximumSize: 200
+
+zuul:
+  #自定义是否启用以uri为HystrixCommandKey的调用和统计模式，一般为开发和测试环境,
+  #false=自定义模式，true=默认简单模式
+  #见 CustomRibbonCommandFactoryBeanPostProcessor
+  simple-hystrix-command-key: false
+  custom-hystrix-command-key-uri-prefix: "/api"
+  #开起zuul调用的隔离策略（THREAD 和 SEMAPHORE）, 默认 SEMAPHORE
+  ribbon-isolation-strategy: SEMAPHORE
+  threadPool:
+    #根据服务名来分别创建线程池
+    useSeparateThreadPools: "${zuul.simple-hystrix-command-key}"
+    threadPoolKeyPrefix: 'zuul-'
+  semaphore:
+    maxSemaphores: 300

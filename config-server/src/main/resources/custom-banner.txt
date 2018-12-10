@@ -1,0 +1,16 @@
+${AnsiStyle.BOLD}${AnsiColor.CYAN}
+   _____             __ _            _____
+  / ____|           / _(_)          / ____|
+ | |     ___  _ __ | |_ _  __ _    | (___   ___ _ ____   _____ _ __
+ | |    / _ \| '_ \|  _| |/ _` |    \___ \ / _ \ '__\ \ / / _ \ '__|
+ | |___| (_) | | | | | | | (_| |    ____) |  __/ |   \ V /  __/ |
+  \_____\___/|_| |_|_| |_|\__, |   |_____/ \___|_|    \_/ \___|_|
+                           __/ |
+                          |___/
+
+${AnsiStyle.NORMAL}
+${AnsiColor.BRIGHT_BLUE}Application Module Name : ${AnsiColor.BRIGHT_YELLOW}${info.app.name}
+${AnsiColor.BRIGHT_BLUE}Application Version     : ${AnsiColor.BRIGHT_YELLOW}${info.app.version}
+${AnsiColor.BRIGHT_BLUE}Spring Boot Version     : ${AnsiColor.BRIGHT_YELLOW}${spring-boot.version}
+${AnsiColor.BRIGHT_BLUE}Spring Cloud Version    : ${AnsiColor.BRIGHT_YELLOW}@spring.cloud.version@
+${AnsiColor.DEFAULT}

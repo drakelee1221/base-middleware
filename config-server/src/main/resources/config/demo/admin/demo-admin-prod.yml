@@ -1,0 +1,94 @@
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: root
+    password: 'xxx'
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/prod?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  redis:
+    database: 3
+    host: 192.168.60.5
+    password: 'xxx'
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m
+
+  # freemarker config
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    settings:
+      template_update_delay: 0
+      default_encoding: UTF-8
+      classic_compatible: true
+      date_format: yyyy-MM-dd
+      time_format: HH:mm:ss
+      datetime_format: yyyy-MM-dd HH:mm:ss
+    order: 1
+
+base:
+  #用于直接通过验证的特殊code
+  common.debug-code: "oT0Czx2Gq@aM6QLgBM6I5g3RILopjURm%X!^&%zVLiA8fAAYatz7I727e0E8PN@C"
+  admin:
+    #超级管理员角色ID, 无需配置菜单权限，拥有所有权限
+    super-role-ids:
+      - "d1817b1b-7a12-480e-b2d7-f3856e099b2a"
+
+    #只要登录后就能直接访问的权限路径，不要以 ** 结束
+    login-permission-path:
+      start-with-path:
+        - "/admin/home"
+        - "/admin/information"
+        - "/admin/ueditor/controller"
+      equals-path:
+        - "/admin"
+        - "/admin/"
+        - "/admin/index"
+
+    #登录页
+    login-path: "/admin/login"
+
+    #不进入权限验证拦截器的地址，Spring 匹配规则
+    auth-exclude-path:
+      - "${base.admin.login-path}"
+      - "/admin/logout"
+      - "/admin/error/**"
+      - "/admin/css/**"
+      - "/admin/fonts/**"
+      - "/admin/js/**"
+      - "/admin/img/**"
+      - "/admin/pub/**"
+      - "/admin/**.html"
+      - "/admin/**.ico"
+      - "/admin/register/**"
+      - "/admin/userType/register"
+      - "/admin/region/tree"
+      - "/admin/product/info/page"
+      - "/admin/profession-member/tree"
+      - "/admin/profession-member/treeorg"
+      - "/admin/region/member/tree"
+      - "/admin/edge/sms/code"
+      - "/admin/edge/captcha"
+      - "/admin/edge/sms"
+      - "/admin/edge/captcha/key"
+      - "/admin/edge/captcha/key/js"
+      - "/admin/edge/sms/validate"
+      - "/admin/edge/captcha/validate"
+      - "/admin/register/org"
+      - "/admin/register/servicer"
+      - "/admin/attachment/upload/no/token"

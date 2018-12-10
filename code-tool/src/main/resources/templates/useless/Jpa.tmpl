@@ -1,0 +1,25 @@
+package ${pkgPrefix}.database.dao.${module};
+
+import ${pkgPrefix}.common.domain.${module}.${className};
+
+#if($pkResult.size()>1)
+import ${packagePrefix}.domain.${className}.PK;
+#end
+import ${pkgPrefix}.database.dao.base.GenericJpaDao;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${className} DAO
+ *
+ * @author : code generator
+ * @version : 1.0
+ * @since : ${date}
+ */
+@Repository
+public interface ${className}Dao extends GenericJpaDao<${className}, ${keyType}> {
+
+
+}
+

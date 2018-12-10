@@ -1,0 +1,63 @@
+#登录权限验证
+base.filters.authorization:
+  authMap:
+    pm:
+      #静态资源文件后缀，跳过权限验证（跳过读取token）
+      staticResourceSuffix:
+#        - ".html"
+
+      #静态资源地址前缀，跳过权限验证，不要以 * 结尾（跳过读取token）
+      staticResourceUriPrefix:
+        - /api/pm/banner/
+        - /api/pm/news/
+        - /api/pm/user/counselor
+        - /api/pm/sys/variabledata
+        - /api/pm/supply/hot
+        - /api/pm/demand/hot
+        - /api/pm/edge/
+        - /api/pm/user/login
+        - /api/pm/user/register
+        - /api/pm/user/token-type/
+        - /api/pm/region/
+        - /api/pm/product/view
+        - /api/pm/advertisement
+        - /api/pm/industry/list
+        - /api/pm/dynamicFormData/pub
+        - /api/pm/dictionary/data
+        - /api/pm/region/tree
+        - /api/pm/coupon/share
+        - /api/pm/spread/
+
+      #不验证登录权限的url前缀, 不要以 * 结尾（读取token）
+      notCheckUrls:
+        - /api/pm/user/password
+        - /api/pm/weixin/binding
+        - /api/pm/weixin/autoLogin
+        - /api/pm/mini/autologin
+        - /api/pm/weixin/event #接收微信事件
+        - /api/pm/weixin/pay/notify #微信支付完成后接收微信通知
+        - /api/pm/alipay/pay/notify #支付宝支付完成后接收微信通知
+        - /api/pm/alipay/pay/recharge/notify
+        - /api/pm/weixin/refund/notify
+        - /api/pm/alipay/refund/notify
+        - /api/pm/alipay/pay/test
+        - /api/pm/oss/qiniu/token/uploading #上传文件 qiniu-token获取
+        - /api/pm/edges/oss/redirect #OSS统一授权重定向地址，可登录也可以不登录
+        - /api/pm/oss/qiniu/callback
+        - /api/pm/supply/list
+        - /api/pm/demand/list
+        - /api/pm/cooperation
+        - /api/pm/demo
+        - /api/pm/callme
+        - /api/pm/product/base
+        - /api/pm/product/combo
+        - /api/pm/user/recommend/manager
+        - /api/pm/user/recommend/servicer
+        - /api/pm/user/recommend/expert
+        - /api/pm/product/items
+        - /api/pm/product/order/cache
+        - /api/pm/weixin/openId
+        - /api/pm/product/manager/share/cache
+        - /api/pm/coupon/info
+        - /api/pm/coupon/usable
+        - /api/pm/share/link/click

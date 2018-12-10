@@ -1,0 +1,9 @@
+base.oss.qiniu:
+  accessKey: "k3MuqdLb5FXihNYeYJiCnKR5Y2mo5UNLJg3DZeiU"
+  secretKey: "xxxx"
+  bucket: "xxx-prod"
+  host: "http://xxxx.com"
+  persistentPipeline: "xxxx"
+  tokenExpireSeconds: "1800"
+  fileSizeByte: 52428800 #50m
+  tempFileDeleteDays: 1

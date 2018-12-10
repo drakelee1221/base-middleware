@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>middleware</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+  <description>${project.artifactId} parent project</description>
+
+  <modules>
+    <module>config-server</module>
+    <module>eureka-server</module>
+    <module>code-tool</module>
+  </modules>
+
+  <parent>
+    <groupId>com.drakelee.base</groupId>
+    <artifactId>common-dependencies</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <dollar>$</dollar>
+    <spring.cloud.version>Finchley.SR2</spring.cloud.version>
+    <lcn.last.version>4.1.0</lcn.last.version>
+  </properties>
+
+
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <build.profiles.active>dev</build.profiles.active>
+        <!--actuator -->
+        <base.actuator.user.name>center_eureka</base.actuator.user.name>
+        <!--  super-admin-dev_hqgy  -->
+        <base.actuator.user.password>{cipher}91a2903947b6c345b27cf7094e43f5394b3619f3bded84c272b79a19b687a081714482c7d13f529a2cb6ee6d59f78825</base.actuator.user.password>
+        <eureka.zones.default>
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer1:8761/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer2:8762/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer3:8763/eureka/
+        </eureka.zones.default>
+        <git.branches>master</git.branches>
+        <skip.test>true</skip.test>
+        <!--配置服务器ID，默认为eureka-server，若修改为 config-server 则需要启动 config-server -->
+        <config-server-id>eureka-server</config-server-id>
+        <!-- 是否使用远程config-server，false=本地，true=远程 -->
+        <config-server-remote>true</config-server-remote>
+        <!--需要本地特殊端口时使用-->
+        <!--<spring.cloud.config.uri>uri: http://localhost:18888/config</spring.cloud.config.uri>-->
+        <spring.cloud.config.uri/>
+        <spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>
+        <spring.cloud.config.discovery.enabled>discovery.enabled: ${config-server-remote}</spring.cloud.config.discovery.enabled>
+        <!--log level-->
+        <logging.level.major.root>DEBUG</logging.level.major.root>
+        <logging.level.major.stdout>DEBUG</logging.level.major.stdout>
+        <logging.level.minor.root>INFO</logging.level.minor.root>
+        <logging.level.minor.stdout>INFO</logging.level.minor.stdout>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <build.profiles.active>prod</build.profiles.active>
+        <!--actuator -->
+        <base.actuator.user.name>center_eureka</base.actuator.user.name>
+        <!--  super-admin-prod_hqgy  -->
+        <base.actuator.user.password>{cipher}36b4cfc17ae15612dce39f60fa670bec77c7650fc41a6c0e1a3e1182f0d54f1279fd5c80d59377ddc8f7b40f89d17f3f</base.actuator.user.password>
+
+        <eureka.zones.default>
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer1:8761/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer2:8762/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer3:8763/eureka/
+        </eureka.zones.default>
+        <git.branches>master</git.branches>
+        <skip.test>true</skip.test>
+        <!--配置服务器ID，默认为eureka-server，若修改为 config-server 则需要启动 config-server -->
+        <config-server-id>eureka-server</config-server-id>
+
+        <!-- 是否使用远程config-server，false=本地，true=远程 -->
+        <config-server-remote>true</config-server-remote>
+        <!--需要本地特殊端口时使用-->
+        <!--<spring.cloud.config.uri>uri: http://localhost:18888/config</spring.cloud.config.uri>-->
+        <spring.cloud.config.uri/>
+        <spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>
+        <spring.cloud.config.discovery.enabled>discovery.enabled: ${config-server-remote}</spring.cloud.config.discovery.enabled>
+
+        <!--log level-->
+        <logging.level.major.root>INFO</logging.level.major.root>
+        <logging.level.major.stdout>OFF</logging.level.major.stdout>
+        <logging.level.minor.root>ERROR</logging.level.minor.root>
+        <logging.level.minor.stdout>OFF</logging.level.minor.stdout>
+      </properties>
+    </profile>
+    <profile>
+      <id>test</id>
+      <properties>
+        <build.profiles.active>test</build.profiles.active>
+        <!--actuator -->
+        <base.actuator.user.name>center_eureka</base.actuator.user.name>
+        <!--  super-admin-test_hqgy  -->
+        <base.actuator.user.password>{cipher}aba3653372bb0abf9246c0f5c2649d05c300fa978eb6fc62a104910c57422e60afaf5f2d3fb9bf3a4a993bbe70476c0d</base.actuator.user.password>
+
+        <eureka.zones.default>
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer1:8761/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer2:8762/eureka/,
+          http://${dollar}{actuator.user.name}:${dollar}{actuator.user.password}@peer3:8763/eureka/
+        </eureka.zones.default>
+        <git.branches>master</git.branches>
+        <skip.test>true</skip.test>
+        <!--配置服务器ID，默认为eureka-server，若修改为 config-server 则需要启动 config-server -->
+        <config-server-id>eureka-server</config-server-id>
+
+        <!-- 是否使用远程config-server，false=本地，true=远程 -->
+        <config-server-remote>true</config-server-remote>
+        <!--需要本地特殊端口时使用-->
+        <!--<spring.cloud.config.uri>uri: http://localhost:18888/config</spring.cloud.config.uri>-->
+        <spring.cloud.config.uri/>
+        <spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>
+        <spring.cloud.config.discovery.enabled>discovery.enabled: ${config-server-remote}</spring.cloud.config.discovery.enabled>
+
+        <!--log level-->
+        <logging.level.major.root>INFO</logging.level.major.root>
+        <logging.level.major.stdout>ERROR</logging.level.major.stdout>
+        <logging.level.minor.root>ERROR</logging.level.minor.root>
+        <logging.level.minor.stdout>ERROR</logging.level.minor.stdout>
+      </properties>
+    </profile>
+  </profiles>
+
+  <build>
+    <!--declares maven building resources-->
+    <resources>
+      <resource>
+        <directory>src/main/resources/</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>*.xml</include>
+          <include>*.yml</include>
+          <include>*.txt</include>
+          <include>**/*.xml</include>
+          <include>**/*.yml</include>
+          <include>**/*.ftl</include>
+          <include>**/*.groovy</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources/</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**.json</include>
+          <include>log4jdbc.properties</include>
+          <include>**.datx</include>
+          <include>**.properties</include>
+          <include>static/**</include>
+          <include>**/*.zip</include>
+          <include>**/*.docx</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>drakelee-base-mvn-repo</id>
+      <name>drakelee-base-mvn-repo</name>
+      <url>https://raw.githubusercontent.com/drakelee1221/base-mvn-repo/master/repository/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+</project>

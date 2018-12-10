@@ -1,0 +1,24 @@
+server:
+  #见 io.undertow.Undertow.Builder
+  undertow:
+    direct-buffers: true
+spring:
+  application:
+    name: '@project.artifactId@'
+  profiles:
+    active: '@build.profiles.active@'
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: '@project.version@'
+    description: This is ${spring.application.name} server
+
+base:
+  config-search-path: config-server/src/main/resources/config
+  config-search-native-path: ${base.config-path-prefix}${base.config-search-path}

@@ -1,0 +1,27 @@
+#微信配置
+base.pm.wechat:
+  appId: wx253a3d1d0544xxxx
+  secret: xxxx
+  redirectUrl: ${base.host.api}/api/weixin/binding #重定向地址 前端回调地址
+  autoLoginRedirectUrl: ${base.host.api}/api/weixin/autoLogin #重定向地址 前端回调地址
+  token: xxxx
+  aesKey: xxxx      #消息加解密密钥
+  subAppId:
+  mchId: 151172xxxx  #商户id
+  mchKey: xxxx           #商户密钥
+  subMchId:
+  notifyUrl: ${base.host.api}/api/weixin/pay/notify  #支付成功后通知地址 前端回调地址
+  tradeType: NATIVE
+  signType: MD5
+  keyPath: classpath:/static/apiclient_cert.p12
+  useSandboxEnv: false    #使用沙箱环境
+  payTest: true
+  success-url: ${base.host.web}/weChatDone
+  refundUrl: ${base.host.api}/api/weixin/refund/notify
+  mobileBindSuccess: ${base.host.mobile}/weChatDone
+  miniapp:
+    appid: wxc22988a43f4bxxxx
+    secret: xxxx
+    token: 111
+    aesKey: 111
+    msgDataFormat: JSON

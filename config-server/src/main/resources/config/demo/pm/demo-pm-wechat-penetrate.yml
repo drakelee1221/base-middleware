@@ -1,0 +1,5 @@
+#微信公众号內穿透配置
+base.pm.wechat.messgae:
+  penetrate:
+    #下单
+    ORDER_SAVE: "${base.host.mobile}/customerManager/orderDetails?orderId=%s"

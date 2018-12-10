@@ -1,0 +1,95 @@
+package ${packagePrefix}.common.domain;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
+#set ($TABLE_NAME = $tableName )
+
+
+/**
+ * $tableComment
+ *
+ * @author : code generator
+ * @version : 1.0
+ * @since : ${date}
+ */
+@Entity
+@Table(name = "$cTableName")
+public class ${className} implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
+  #if($pkResult.size()!=1)
+  @EmbeddedId
+  private PK  pk = new PK();
+  #else
+  /** ${pkName} - ${pkComment} */
+  private ${keyType}  ${keyVar} ;
+  #end
+
+  #foreach($prop in $columnResult)
+  /** $prop.name - $prop.comments */
+  #if($pkResult.size()!=1)
+  @Column(name = "$prop.name")
+  #end
+  private ${prop.dataType}  ${prop.javaName} ;
+
+  #end
+
+
+  #foreach($prop in $pkResult)
+  #if($pkResult.size()==1)
+  @Id
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @GeneratedValue(generator="uuid2")
+  @Column(name = "$prop.name", nullable = false)
+  #end
+  public ${prop.dataType}  ${prop.getterMethod}  () {
+    #if($pkResult.size()>1)
+    return pk.${prop.javaName};
+    #else
+    return this.${prop.javaName};
+    #end
+  }
+  #end
+
+  #foreach($prop in $columnResult)
+  #if($pkResult.size()==1)
+  @Column(name = "${prop.name}"#if($prop.nullable == "false"), nullable = false#end)
+  #end
+  public ${prop.dataType}  ${prop.getterMethod}  () {
+    return ${prop.javaName};
+  }
+  #end
+
+  #foreach($prop in $pkResult)
+  public void ${prop.setterMethod} (${prop.dataType}  ${prop.javaName}) {
+    #if($pkResult.size()>1)
+    this.pk.${prop.javaName} = ${prop.javaName};
+    #else
+    this.${prop.javaName} = ${prop.javaName};
+    #end
+  }
+  #end
+
+  #foreach($prop in $columnResult)
+  public void ${prop.setterMethod} (${prop.dataType}  ${prop.javaName}) {
+    this.${prop.javaName} = ${prop.javaName};
+  }
+  #end
+
+  #if($pkResult.size()>1)
+  @Embeddable
+  public static class PK implements Serializable {
+    #foreach($prop in $pkResult)
+    @Column(name = "${prop.name}" )
+    private ${prop.dataType}  ${prop.javaName} ;
+    #end
+  }
+  #end
+}

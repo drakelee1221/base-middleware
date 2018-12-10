@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>生成Java代码</title>
+</head>
+
+<style>
+  input[type="text"] {
+    width: 900px;
+    margin-bottom: 15px;
+  }
+
+  .tableName {
+    cursor: pointer;
+  }
+
+  .mustHave {
+    color: red;
+  }
+</style>
+
+<body>
+
+<div id="app">
+  <form id="params" name="params">
+    driver(数据库连接):<br><input type="text" name="driver" value="com.mysql.jdbc.Driver"><span
+    class="mustHave">* 必填</span><br>
+    url(数据库连接):<br><input type="text" name="url"
+                          value="jdbc:mysql://192.168.60.5:3306/demo_dev?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false"><span
+    class="mustHave">* 必填</span><br>
+    databaseName(数据库连接):<br><input type="text" name="databaseName" value="demo_dev"><span
+    class="mustHave">* 必填</span><br>
+    userName(数据库连接):<br><input type="text" name="userName" value="root"><span class="mustHave">* 必填</span><br>
+    password(数据库连接):<br><input type="text" name="password" value="root"><span class="mustHave">* 必填</span><br>
+    tablePrefix(需要去掉的表面前缀，实体类将不带此前缀):<br><input type="text" name="tablePrefix" value=""><br>
+    pkgPrefix(包路径前缀): <br><input type="text" name="pkgPrefix" value="com.drakelee.demo"><span
+    class="mustHave">* 必填</span><br>
+    module(模块名称，对应模块包名): <br><input type="text" name="module" value="user"><span class="mustHave">* 必填</span><br>
+    subModule: <br><input type="text" name="subModule" value=""><br>
+    javaSource(存放路径): <br><input type="text" name="javaSource" value="D:\\CODEGEN1\\java\\"><span
+    class="mustHave">* 必填</span><br>
+    resources(存放路径): <br><input type="text" name="resources" value="D:\\CODEGEN1\\resources\\"><span class="mustHave">* 必填</span><br>
+    webapp(存放路径): <br><input type="text" name="webapp" value="D:\\CODEGEN1\\webapp\\"><span class="mustHave">* 必填</span><br>
+    tableName(表名，选择):
+    <input type="hidden" name="tableName" value="">
+    <button type="button" v-on:click="refreshTable">显示/刷新表</button>
+    <button type="button" v-on:click="checkAll">全选</button>
+    <button type="button" v-on:click="checkNone">全不选</button>
+    <span class="mustHave">* 必选</span>
+    &nbsp;&nbsp;
+    <input placeholder="表名/注释检索" v-model="tabNameOrTabComment">
+    <br>
+  </form>
+  <table style="width: 90%">
+    <tbody>
+    <tr v-for="table in tables">
+      <td><input class="tableName" type="checkbox" v-data="table"></td>
+      <td style="width: 30%" v-on:click="checkBox">{{table.tableName}}</td>
+      <td style="width: 30%">{{table.tableComment}}</td>
+      <td style="width: 30%">{{table.createTime | formatDate}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <br>
+  <button type="button" v-on:click="submit">生成JPA代码</button>&nbsp;&nbsp;
+  <button type="button" rel="mybatis" v-on:click="submit">生成Mybatis代码</button>
+  <br>
+  <br>
+  <br>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+  var serviceUrl = "http://localhost";
+  var port = "9999";
+  var result = new Array();
+  var app = new Vue({
+    el: '#app',
+    data: {tables: "", tabNameOrTabComment: ""},
+    methods: {
+      refreshTable: function () {
+        $.ajax({
+          url: serviceUrl + ":" + port + "/code/table?" + $("#params").serialize(),
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            result = data;
+            app.tables = data;
+          },
+          error: function () {
+            alert("异常，请检查数据库连接信息");
+          }
+        });
+      },
+      checkBox: function (e) {
+        var ch = $(e.target).prev().children();
+        if (ch.is(':checked')) {
+          ch.attr("checked", false);
+        } else {
+          ch.attr("checked", true);
+        }
+        return;
+      },
+      submit: function (e) {
+        $(e.target).attr("disabled", "disabled");
+        var mybatis = $(e.target).attr("rel");
+        console.log(mybatis);
+        var tableName = "";
+        $("input:checked[type='checkbox']").each(function () {
+          tableName += $(this).parent().next().html() + ",";
+        });
+        $("input[name='tableName']").val(tableName);
+        var url = serviceUrl + ":" + port + "/code/genaretor";
+        if (mybatis != null && mybatis != undefined && mybatis != "") {
+          url = serviceUrl + ":" + port + "/code/genaretorWithMybatis";
+        }
+        $.ajax({
+          url: url + "?" + $("#params").serialize(),
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            if (data.result == "success") {
+              alert("生成代码成功，请前往存放路径查看");
+            } else {
+              alert("异常");
+            }
+            $(e.target).removeAttr("disabled");
+          },
+          error: function () {
+            $(e.target).removeAttr("disabled");
+            alert("异常，检查必填项");
+          }
+        });
+      },
+      checkAll: function () {
+        $(".tableName").attr("checked", true);
+      },
+      checkNone: function () {
+        $(".tableName").attr("checked", false);
+      },
+    },
+    filters: {
+      formatDate: function (time) {
+        return time.substring(0, time.lastIndexOf(":"));
+      },
+    },
+    watch: {
+      tabNameOrTabComment(val, oldVal) {
+        app.checkNone();
+        var temp = result.filter(function (element, index, self) {
+          var name = element.tableName;
+          var comment = element.tableComment;
+          return (name.indexOf(val) > -1 || comment.indexOf(val) > -1);
+        });
+        app.tables = temp;
+      },
+    }
+  });
+
+
+</script>
+</body>
+</html>

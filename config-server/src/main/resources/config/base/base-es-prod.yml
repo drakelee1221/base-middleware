@@ -1,0 +1,13 @@
+spring:
+  data:
+    elasticsearch:
+      #集群名称
+      cluster-name: elasticsearch_he800
+      #地址配置 不要http前缀
+      properties:
+        master-http-address: '172.24.214.52:9200'
+        master-transport-address: '172.24.214.52:9300'
+        #集群地址
+        transport-addresses: '172.24.214.52:9300'
+        #集群地址分割符
+        transport-addresses-split: ','

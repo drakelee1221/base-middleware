@@ -1,0 +1,17 @@
+base.sms:
+  enable: "true"
+  # 阿里云
+  Aliyun:
+    accessKeyId: "LTAIz7y14srnVlnf"
+    accessKeySecret: "xxxx"
+    regionId: "cn-chongqing"
+    signName: "nnnn"
+    timeout: "10000"
+  # 阿里大鱼
+  ALiDaYu:
+    host: "http://gw.api.taobao.com/router/rest"
+    appid: "24549276"
+    secret: "xxxx"
+    signName: "111"
+  # 短信请求间隔，毫秒
+  limit: 60000

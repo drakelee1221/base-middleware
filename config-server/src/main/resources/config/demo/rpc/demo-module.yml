@@ -1,0 +1,5 @@
+module-pm: demo-pm
+module-task: demo-task
+module-admin: demo-admin
+module-zuul: demo-zuul
+module-tx-manager: tx-manager

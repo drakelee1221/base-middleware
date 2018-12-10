@@ -1,0 +1,15 @@
+#支付宝配置
+base.pm.alipay:
+  appId: 201609100047xxxx
+  privateKey: xxxx
+  publicKey: xxxx
+  getway: https://openapi.alipay.com/gateway.do #网关
+  sandboxGetway: https://openapi.alipaydev.com/gateway.do #沙箱环境网关
+  aesKey: xxxx
+  notifyUrl: ${base.host.api}/api/alipay/pay/notify          #支付成功后通知地址
+  recharge_notifyUrl: ${base.host.api}/api/alipay/pay/recharge/notify #充值通知地址
+  useSandboxEnv: true    #使用沙箱环境
+  timeout: #订单超时时间
+  sellerId: 208810217499xxxx
+  refundUrl: ${base.host.api}/api/alipay/refund/notify
+  returnUrl: ${base.host.api}/api/m/wap/alipay/pay/return

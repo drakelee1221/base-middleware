@@ -1,0 +1,29 @@
+zuul:
+  #跨域response header 重复问题
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin, Vary
+  ribbon.eager-load.enabled: true
+  retryable: true #是否开启重试，默认全部都重试, 特殊的在 demo-gateway-filter.yml 中配置
+  add-host-header: true
+  routes:
+    #后台
+    admin:
+      stripPrefix: false
+      path: /admin/**
+      serviceId: demo-admin
+      #默认过滤客户端带的header， 默认 Authorization, Cookies, Set-Cookies, 如设置空字符串，则不忽略header，如保持cookie不丢失
+      sensitive-headers: ""
+
+    #移动端相关
+#    mobile:
+#      stripPrefix: false #是否去掉代理的path前缀
+#      path: /api/m/**
+#      serviceId: demo-mobile
+#      sensitive-headers: ""
+
+    #平台业务相关
+    pm:
+      stripPrefix: false #是否去掉代理的path前缀
+      path: /api/pm/**
+      serviceId: demo-pm
+      #默认过滤客户端带的header， 默认 Authorization, Cookies, Set-Cookies, 如设置空字符串，则不忽略header，如保持cookie不丢失
+      sensitive-headers: ""

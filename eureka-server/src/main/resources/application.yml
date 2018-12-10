@@ -1,0 +1,52 @@
+spring:
+  freemarker.prefer-file-system-access: false
+  application:
+    name: '@project.artifactId@'
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: '@build.profiles.active@'
+  boot:
+    admin:
+      context-path: "/admin"
+      discovery:
+        converter:
+          management-context-path: "${management.endpoints.web.base-path}"
+      ui:
+        brand: "<img src='assets/img/icon-spring-boot-admin.svg'>
+        <a class='navbar-item logo is-active' href='#' onclick=\"location.href='/'\"><span>Spring Boot Admin</span></a>"
+
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: '@project.version@'
+    description: This is ${spring.application.name} server
+server:
+  #见 io.undertow.Undertow.Builder
+  undertow:
+    direct-buffers: true
+
+base:
+  #通过pom中指定config-server的服务名，当名称和eureka服务名相同时，则将eureka当成config-server一起启动
+  config-server-id: '@config-server-id@'
+  config-search-path: config-server/src/main/resources/config
+  #启动类中设置的 base.config-path-prefix，可以在dev、test、prod文件中修改
+  config-search-native-path: ${base.config-path-prefix}${base.config-search-path}
+  config-name-separator: "-"
+  config-server:
+    #配置文件分支环境
+    config-environments:
+      - master
+      - dev
+
+  #elastic-search 配置文件名，不要后缀.yml
+  es-file-name: 'base-es-dev'
+  es-master-http-address-key: 'spring.data.elasticsearch.properties.master-http-address'
+  es-transport-http-address-key: 'spring.data.elasticsearch.properties.transport-addresses'
+  es-cluster-name-key: 'spring.data.elasticsearch.cluster-name'
+  #允许被删除的索引名称(contains)集合
+  es-allow-delete-index:
+    - logstash

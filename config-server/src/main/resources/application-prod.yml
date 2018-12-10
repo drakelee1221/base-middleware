@@ -1,0 +1,15 @@
+#base:
+#  config-search-path: config-server/src/main/resources/config
+#  config-search-native-path: /data/he800/server/config
+
+spring:
+  cloud:
+    config:
+      server:
+        prefix: config
+        default-label: '@git.branches@'
+        git:
+          uri: git://192.168.60.5/HE800.git
+          search-paths: ${base.config-search-path}/**
+          username: ligeng
+          password: ligeng

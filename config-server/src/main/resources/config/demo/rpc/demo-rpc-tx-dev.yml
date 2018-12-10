@@ -1,0 +1,11 @@
+base.rpc:
+  tx:
+    lcn:
+      enable: false
+      #检查txManager地址的间隔时间，单位毫秒
+      txManagerUrlCheckTimeLimit: 30000
+  feign:
+    #外部feign服务地址配置，key-value
+    external-services:
+      dotnet-common: 'http://192.168.1.196:6102'
+      dotnet-user: 'http://192.168.1.168:63488'

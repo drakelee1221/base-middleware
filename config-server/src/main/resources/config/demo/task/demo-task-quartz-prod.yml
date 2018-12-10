@@ -1,0 +1,11 @@
+base.quartz:
+  #当触发的作业被其它服务器执行时的周期等待间隔时间
+  lockingSleepIntervalMillisecond: 1000
+  #当触发的作业被其它服务器执行时的最大等待时间
+  lockingSleepMillisecond: 300000
+  #作业线程池
+  threadPool:
+    corePoolSize: 60
+    maxPoolSize: 80
+    queueCapacity: 100
+    keepAliveMillisecond: ${base.quartz.lockingSleepMillisecond}

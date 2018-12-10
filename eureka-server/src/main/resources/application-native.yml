@@ -1,0 +1,13 @@
+base.config-native: true #在该文件中，始终为true
+#config-native 需在profiles 中使用native
+#可通过系统参数 system.config.native.path 进行启动参数设置
+spring:
+  cloud:
+    config:
+      server:
+        prefix: config
+        default-label: 'native'
+        native:
+          add-label-locations: false
+          search-locations: >-
+            file:${system.config.native.path:${base.config-search-native-path}}/**

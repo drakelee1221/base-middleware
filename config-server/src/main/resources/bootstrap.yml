@@ -1,0 +1,46 @@
+# security
+actuator:
+  user:
+    name: '@base.actuator.user.name@'
+    password: '@base.actuator.user.password@'
+    # 需要验证的uri路径, 英文逗号隔开
+    match-path: >-
+      /base,
+      /config,
+      /config/**
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: ""
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+eureka-zones-default-has-blanks: '@eureka.zones.default@'
+
+eureka:
+  client:
+    #是否向注册中心进行注册
+    enabled: false
+    serviceUrl:
+      defaultZone: '${eureka-zones-default-trim-blanks:eureka-zones-default-has-blanks}'
+
+  instance:
+    status-page-url-path: "${management.endpoints.web.base-path}/info"
+    health-check-url-path: "${management.endpoints.web.base-path}/health"
+    instance-id: '${spring.cloud.client.hostname}~${spring.application.name}-${spring.application.instance_id:${server.port}}'
+    preferIpAddress: true
+    metadata-map:
+      fuzzy.boot.path: '${fuzzy.boot.path:}'
+      #actuator 用户信息 用于boot admin server监控调用
+      user.name: '${actuator.user.name}'
+      user.password: '${actuator.user.password}'
+
+logging:
+  level:
+    ROOT: "@logging.level.minor.root@"
+    STDOUT: "@logging.level.minor.stdout@"

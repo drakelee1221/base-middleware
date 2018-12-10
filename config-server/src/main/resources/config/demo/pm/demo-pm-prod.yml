@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: root
+    password: 'xxxx'
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/prod?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  redis:
+    database: 3
+    host: 192.168.60.5
+    password: 'xxxx'
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m
+
+
+
+# 测试环境用于接受发送的邮件地址，以免乱发出去
+base.pm.mail.sendMailConfig:
+  testReceptionAddress: ""
+  send : 0 #0 不发送邮件，1 发送邮件
+
+# 用户一个小时内密码错误限制次数
+base.userPwdError.limit.countOfHour: 3

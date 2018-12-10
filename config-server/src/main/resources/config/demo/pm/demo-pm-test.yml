@@ -1,0 +1,51 @@
+ribbon:
+   #（开发和测试环境）
+  #eureka客户端ribbon刷新时间, 默认30s
+  ServerListRefreshInterval: 5000
+eureka:
+  client:
+    #（开发和测试环境）
+    #eureka client刷新本地缓存时间, 默认30s
+    registryFetchIntervalSeconds: 5
+  instance:
+    #（开发和测试环境）
+    #服务刷新时间配置，每隔这个时间会主动心跳一次, 默认30s
+    lease-renewal-interval-in-seconds: 5
+    #（开发和测试环境）
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，
+    #这个配置一般为服务刷新时间配置的三倍, 默认90s
+    lease-expiration-duration-in-seconds: 15
+
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+#    username: sa
+#    password: 123456
+#    url: jdbc:log4jdbc:mysql://localhost:3306/sa?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: xxxx
+    url: jdbc:log4jdbc:mysql://192.168.60.5:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  redis:
+    database: 2
+    host: 192.168.60.5
+    password: xxxx
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 50
+        max-wait: 5s
+        min-idle: 0
+    port: 6379
+    timeout: 1m
+
+
+
+
+# 测试环境用于接受发送的邮件地址，以免乱发出去
+base.pm.mail.sendMailConfig:
+  testReceptionAddress: ""
+  send : 1 #0 不发送邮件，1 发送邮件
+
+# 用户一个小时内密码错误限制次数
+base.userPwdError.limit.countOfHour: 3

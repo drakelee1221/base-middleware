@@ -1,0 +1,16 @@
+spring:
+  data:
+    elasticsearch:
+      #集群名称
+      cluster-name: elasticsearch
+      #地址配置 不要http前缀
+      properties:
+        master-http-address: '192.168.60.7:9200'
+        master-transport-address: '192.168.60.7:9300'
+        #集群地址
+        transport-addresses: '192.168.60.7:9300'
+        #集群地址分割符
+        transport-addresses-split: ','
+
+base:
+  elasticsearch.enable: true

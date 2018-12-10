@@ -1,0 +1,20 @@
+base:
+#线程池数量 ThreadPoolService
+  common.threadPool.poolSize: 100
+
+#平台接口API，host地址
+#base.host.api: "http://localhost:10010"
+  host:
+    api: "http://d4xcj4.natappfree.cc"
+#前端页面，host地址
+    web: "http://192.168.60.5:8081"
+    mobile: "http://192.168.60.5:8081"
+
+#排除不需要的 autoconfigure 配置
+#com.codingapi.tx.TransactionConfiguration : LCN 直接排除自带的autoConfig，通过 base.rpc.tx.lcn.enable 来控制
+spring.autoconfigure.exclude: >-
+  com.codingapi.tx.TransactionConfiguration,
+  org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,
+  org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration,
+  org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration,
+  org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration

@@ -1,0 +1,40 @@
+base.common.cache:
+  enable: true
+  tokenMultipleLogin: true #非唯一性登录，是否支持多处登录
+  tokenExpireDefault: 172800 # token 失效时间(秒), 默认1800
+  #特殊Token对象的失效时间
+  tokenExpireMap:
+    UserMemberToken: 3600
+
+  #发送同步消息事件，最大等待时间，默认45000毫秒
+  syncMessageMaxWaitMillis: 45000
+
+  # 自定义缓存失效时间, 单位秒
+  expires:
+    ADMIN_AUTH_INFO: ${base.common.cache.tokenExpireMap.UserMemberToken} #admin端，登录权限，失效时间同 UserMemberToken 一样
+    PRE_SMS_CODE_LG: 300 #登录-短信发送前的验证码
+    VERIFY_CODE_LG: 300 #登录-验证码
+    PRE_SMS_CODE_RG: 300 #注册-短信发送前的验证码
+    VERIFY_CODE_RG: 1800 #注册-验证码
+    PRE_SMS_CODE_CP: 300 #修改密码-短信发送前的验证码
+    VERIFY_CODE_CP: 300 #修改密码-验证码
+    PRE_SMS_CODE_PHONE: 300 #修改手机号-短信发送前的验证码
+    VERIFY_CODE_PHONE: 300 #修改手机号-验证码
+    ATTACHMENT_ID_URL: 3600 #附件id对应url
+    ATTACHMENT_ID_LIST: 3600 #附件id对应的权限列表
+    USER_SMS_LASTTIME: 3600 #短信发送上次时间
+    JS_DECRYPT : 300 #发送短信前的JS加解密代码
+    RECHARGE_PAY: 120 #充值
+    ORDER_PAY: 120 #订单支付
+    VERIFY_CODE_EMAIL: 300 #修改邮箱-验证码
+    PRE_SMS_CODE_EMAIL: 300 #修改邮箱
+    WECHAT_BIND: 120 #微信绑定
+    PRE_SMS_ERROR_PASSWORD_CODE_LG: 60 #登录-密码错误超过限制短信发送前的验证码
+    PASSWORD_ERROR: 3600 #用户一个小时内密码输入错误
+    PRE_SMS_CODE_TX: 60 #提现-短信发送前的验证码
+    UP_NO_TOKEN: 1800 #企业注册
+    ORG_REGISTER: 300 #企业注册短信验证码
+    SERVICE_USER_REGISTER: 300 #服务人员注册验证码
+    WECHAT_LOGIN_TOKENOBJ: 300 #微信登录重定向临时对象
+    ORDER_TEMP_CACHE: 120 #临时订单缓存 30分钟
+    MANAGER_COMBO_SHARE_CACHE: 18000 #产品包分享 5小时

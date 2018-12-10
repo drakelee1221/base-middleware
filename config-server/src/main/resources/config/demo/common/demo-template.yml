@@ -1,0 +1,10 @@
+base.common.sysmessage:
+  # 站内信模板
+  sys-templates:
+    CHANGE_ORDER: 【nnnn】尊敬的{phone}用户，编号为{orderId}的订单信息已被修改，请点击查看。
+  # 微信消息模板
+  wechat-templates:
+    CHANGE_ORDER: 【nnnn】尊敬的{phone}用户，编号为{orderId}的订单信息已被修改，请点击查看。
+  # 短信消息模板
+  sms-templates:
+    CHANGE_ORDER: 【nnnn】尊敬的{phone}用户，编号为{orderId}的订单信息已被修改，请点击查看。

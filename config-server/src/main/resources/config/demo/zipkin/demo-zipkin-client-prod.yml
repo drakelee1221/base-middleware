@@ -1,0 +1,12 @@
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    #开起发送追踪数据
+    enabled: false
+    base-url: "http://localhost:10090"
+    locator:
+      discovery:
+        #是否用注册中心的信息做为当前客户端信息
+        enabled: true
