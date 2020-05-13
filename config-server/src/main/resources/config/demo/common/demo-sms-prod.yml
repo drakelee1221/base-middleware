@@ -2,7 +2,7 @@ base.sms:
   enable: "true"
   # 阿里云
   Aliyun:
-    accessKeyId: "LTAIz7y14srnVlnf"
+    accessKeyId: "xxx"
     accessKeySecret: "xxxx"
     regionId: "cn-chongqing"
     signName: "nnnn"
